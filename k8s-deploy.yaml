@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archit-3d-live
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: resume-3d
+  template:
+    metadata:
+      labels:
+        app: resume-3d
+    spec:
+      containers:
+      - name: resume
+        image: <YOUR_DOCKER_HUB_ID>/archit-resume-3d:v1
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: resume-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: resume-3d
